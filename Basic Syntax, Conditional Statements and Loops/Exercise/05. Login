@@ -3,7 +3,7 @@ using System;
 class Program
 {
     static void Main(string[] args)
-    {
+    { 
         string username = Console.ReadLine();
         string reversedUsername = ReverseString(username);
         int attempts = 0;
