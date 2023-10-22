@@ -1,0 +1,60 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Program
+{
+    static void Main()
+    {
+        List<string> coffees = Console.ReadLine().Split(' ').ToList();
+        int countOfCommands = int.Parse(Console.ReadLine());
+
+        for (int i = 0; i < countOfCommands; i++)
+        {
+            string[] currentCommand = Console.ReadLine().Split(' ');
+            string myCommand = currentCommand[0];
+
+            if (myCommand == "Include")
+            {
+                string coffeeInclude = currentCommand[1];
+                coffees.Add(coffeeInclude);
+            }
+            else if (myCommand == "Remove")
+            {
+                string firstOrLast = currentCommand[1];
+                int numberOfCoffees = int.Parse(currentCommand[2]);
+
+                if (numberOfCoffees < coffees.Count)
+                {
+                    if (firstOrLast == "first")
+                    {
+                        coffees = coffees.Skip(numberOfCoffees).ToList();
+                    }
+                    else if (firstOrLast == "last")
+                    {
+                        coffees = coffees.Take(coffees.Count - numberOfCoffees).ToList();
+                    }
+                }
+            }
+            else if (myCommand == "Prefer")
+            {
+                int firstIndex = int.Parse(currentCommand[1]);
+                int secondIndex = int.Parse(currentCommand[2]);
+
+                if (firstIndex < coffees.Count && secondIndex < coffees.Count)
+                {
+                    string temp = coffees[firstIndex];
+                    coffees[firstIndex] = coffees[secondIndex];
+                    coffees[secondIndex] = temp;
+                }
+            }
+            else if (myCommand == "Reverse")
+            {
+                coffees.Reverse();
+            }
+        }
+
+        Console.WriteLine("Coffees:");
+        Console.WriteLine(string.Join(" ", coffees));
+    }
+}
