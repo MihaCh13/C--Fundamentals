@@ -1,0 +1,66 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Program
+{
+    static void Main()
+    {
+        List<string> friends = Console.ReadLine().Split(", ").ToList();
+        int blacklistedNames = 0;
+        int lostNames = 0;
+
+        while (true)
+        {
+            string[] cmd = Console.ReadLine().Split();
+            string action = cmd[0];
+
+            if (action == "Report")
+            {
+                break;
+            }
+
+            if (action == "Blacklist")
+            {
+                string name = cmd[1];
+                if (friends.Contains(name))
+                {
+                    int index = friends.IndexOf(name);
+                    friends[index] = "Blacklisted";
+                    blacklistedNames++;
+                    Console.WriteLine($"{name} was blacklisted.");
+                }
+                else
+                {
+                    Console.WriteLine($"{name} was not found.");
+                }
+            }
+            else if (action == "Error")
+            {
+                int index = int.Parse(cmd[1]);
+                if (index >= 0 && index < friends.Count && friends[index] != "Blacklisted" && friends[index] != "Lost")
+                {
+                    string name = friends[index];
+                    friends[index] = "Lost";
+                    lostNames++;
+                    Console.WriteLine($"{name} was lost due to an error.");
+                }
+            }
+            else if (action == "Change")
+            {
+                int index = int.Parse(cmd[1]);
+                string newName = cmd[2];
+                if (index >= 0 && index < friends.Count)
+                {
+                    string currentName = friends[index];
+                    friends[index] = newName;
+                    Console.WriteLine($"{currentName} changed his username to {newName}.");
+                }
+            }
+        }
+
+        Console.WriteLine($"Blacklisted names: {blacklistedNames}");
+        Console.WriteLine($"Lost names: {lostNames}");
+        Console.WriteLine(string.Join(" ", friends));
+    }
+}
