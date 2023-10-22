@@ -1,0 +1,52 @@
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        double experienceNeeded = double.Parse(Console.ReadLine());
+        int battles = int.Parse(Console.ReadLine());
+        double totalExperience = 0;
+        int battlesCount = 0;
+        bool isEnough = false;
+
+        for (int battle = 1; battle <= battles; battle++)
+        {
+            double experience = double.Parse(Console.ReadLine());
+            battlesCount++;
+
+            if (battle % 3 == 0)
+            {
+                experience += experience * 0.15;
+            }
+
+            if (battle % 5 == 0)
+            {
+                experience *= 0.90;
+            }
+
+            if (battle % 15 == 0)
+            {
+                experience += experience * 0.05;
+            }
+
+            totalExperience += experience;
+
+            if (totalExperience >= experienceNeeded)
+            {
+                isEnough = true;
+                break;
+            }
+        }
+
+        if (isEnough)
+        {
+            Console.WriteLine($"Player successfully collected his needed experience for {battlesCount} battles.");
+        }
+        else
+        {
+            double neededExperience = experienceNeeded - totalExperience;
+            Console.WriteLine($"Player was not able to collect the needed experience, {neededExperience:F2} more needed.");
+        }
+    }
+}
