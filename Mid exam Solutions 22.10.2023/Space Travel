@@ -1,0 +1,73 @@
+using System;
+using System.Collections.Generic;
+
+namespace SpaceShip
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<string> travelRoutes = Console.ReadLine().Split("||").ToList();
+
+            int currentFuel = int.Parse(Console.ReadLine());
+            int currentAmmunition = int.Parse(Console.ReadLine());
+
+            for (int i = 0; i < travelRoutes.Count; i++)
+            {
+                ProcessCommand(travelRoutes[i], ref currentFuel, ref currentAmmunition);
+                if (currentFuel < 0)
+                {
+                    Console.WriteLine("Mission failed.");
+                    break;
+                }
+            }
+
+            if (currentFuel >= 0)
+            {
+                Console.WriteLine("You have reached Titan, all passengers are safe.");
+            }
+        }
+
+        static void ProcessCommand(string command, ref int fuel, ref int ammunition)
+        {
+            string[] commandParts = command.Split();
+            string currentCommand = commandParts[0];
+
+            if (currentCommand == "Travel")
+            {
+                int distance = int.Parse(commandParts[1]);
+                fuel -= distance;
+                if (fuel >= 0)
+                {
+                    Console.WriteLine($"The spaceship travelled {distance} light-years.");
+                }
+            }
+            else if (currentCommand == "Enemy")
+            {
+                int enemyArmor = int.Parse(commandParts[1]);
+                if (ammunition >= enemyArmor)
+                {
+                    ammunition -= enemyArmor;
+                    Console.WriteLine($"An enemy with {enemyArmor} armour is defeated.");
+                }
+                else
+                {
+                    fuel -= enemyArmor * 2;
+                    if (fuel >= 0)
+                    {
+                        Console.WriteLine($"An enemy with {enemyArmor} armour is outmaneuvered.");
+                    }
+                }
+            }
+            else if (currentCommand == "Repair")
+            {
+                int addFuel = int.Parse(commandParts[1]);
+                int addAmmunition = addFuel * 2;
+                fuel += addFuel;
+                ammunition += addAmmunition;
+                Console.WriteLine($"Ammunitions added: {addAmmunition}.");
+                Console.WriteLine($"Fuel added: {addFuel}.");
+            }
+        }
+    }
+}
