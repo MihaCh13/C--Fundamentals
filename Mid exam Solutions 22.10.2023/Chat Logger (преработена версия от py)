@@ -1,0 +1,57 @@
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        List<string> chatLog = new List<string>();
+
+        while (true)
+        {
+            string[] chatCommand = Console.ReadLine().Split();
+
+            if (chatCommand[0] == "Chat")
+            {
+                chatLog.Add(chatCommand[1]);
+            }
+            else if (chatCommand[0] == "Delete")
+            {
+                if (chatLog.Contains(chatCommand[1]))
+                {
+                    chatLog.Remove(chatCommand[1]);
+                }
+            }
+            else if (chatCommand[0] == "Edit")
+            {
+                if (chatLog.Contains(chatCommand[1]))
+                {
+                    int index = chatLog.IndexOf(chatCommand[1]);
+                    chatLog.RemoveAt(index);
+                    chatLog.Insert(index, chatCommand[2]);
+                }
+            }
+            else if (chatCommand[0] == "Pin")
+            {
+                if (chatLog.Contains(chatCommand[1]))
+                {
+                    chatLog.Remove(chatCommand[1]);
+                    chatLog.Add(chatCommand[1]);
+                }
+            }
+            else if (chatCommand[0] == "Spam")
+            {
+                chatLog.AddRange(chatCommand[1..]);
+            }
+            else if (chatCommand[0] == "end")
+            {
+                break;
+            }
+        }
+
+        foreach (string element in chatLog)
+        {
+            Console.WriteLine(element);
+        }
+    }
+}
