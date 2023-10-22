@@ -1,0 +1,80 @@
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        string input = Console.ReadLine();
+        List<string> vehicles = new List<string>(input.Split(">>"));
+        double totalTax = 0;
+
+        while (vehicles.Count > 0)
+        {
+            string[] currentCar = vehicles[0].Split(' ');
+            int years = int.Parse(currentCar[1]);
+            int kilometers = int.Parse(currentCar[2]);
+            string carType = currentCar[0];
+
+            if (carType == "family")
+            {
+                double tax = 50;
+                for (int year = 1; year <= years; year++)
+                {
+                    tax -= 5;
+                }
+
+                while (kilometers - 3000 >= 0)
+                {
+                    tax += 12;
+                    kilometers -= 3000;
+                }
+
+                totalTax += tax;
+                Console.WriteLine($"A {carType} car will pay {tax:F2} euros in taxes.");
+            }
+            else if (carType == "heavyDuty")
+            {
+                double tax = 80;
+                for (int year = 1; year <= years; year++)
+                {
+                    tax -= 8;
+                }
+
+                while (kilometers - 9000 >= 0)
+                {
+                    tax += 14;
+                    kilometers -= 9000;
+                }
+
+                totalTax += tax;
+                Console.WriteLine($"A {carType} car will pay {tax:F2} euros in taxes.");
+            }
+            else if (carType == "sports")
+            {
+                double tax = 100;
+                for (int year = 1; year <= years; year++)
+                {
+                    tax -= 9;
+                }
+
+                while (kilometers - 2000 >= 0)
+                {
+                    tax += 18;
+                    kilometers -= 2000;
+                }
+
+                totalTax += tax;
+                Console.WriteLine($"A {carType} car will pay {tax:F2} euros in taxes.");
+            }
+            else
+            {
+                Console.WriteLine("Invalid car type.");
+            }
+
+            vehicles.RemoveAt(0);
+        }
+
+        Console.WriteLine($"The National Revenue Agency will collect {totalTax:F2} euros in taxes.");
+    }
+}
