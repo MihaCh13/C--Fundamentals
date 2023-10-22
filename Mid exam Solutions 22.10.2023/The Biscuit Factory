@@ -1,0 +1,41 @@
+namespace _01._The_Biscuit_Factory
+{
+    using System;
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            int biscetsPerWorker = int.Parse(Console.ReadLine());
+            int worcers = int.Parse(Console.ReadLine());
+            int enemyFabrick = int.Parse(Console.ReadLine());
+            int myFabric = 0;
+
+            for (int i = 1; i <= 30; i++)
+            {
+                if (i % 3 == 0)
+                {
+                    myFabric += (int)((worcers * biscetsPerWorker) * 0.75);
+                    continue;
+                }
+                myFabric += worcers * biscetsPerWorker;
+            }
+            Console.WriteLine($"You have produced {myFabric} biscuits for the past month.");
+            if (myFabric >= enemyFabrick)
+            {
+                int difference = enemyFabrick- myFabric;
+               
+                double result = ((double) difference / enemyFabrick) * 100;
+                
+                Console.WriteLine($"You produce {Math.Abs(result):f2} percent more biscuits.");
+            }
+            else
+            {
+                int diferent = myFabric - enemyFabrick;
+
+                double result =((double) diferent / enemyFabrick) *100;
+                Console.WriteLine($"You produce {Math.Abs(result):f2} percent less biscuits.");
+            }
+            
+        }
+    }
+}
