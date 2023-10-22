@@ -1,0 +1,61 @@
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        List<string> friends = Console.ReadLine().Split(", ");
+        int blacklistedNames = 0;
+        int lostNames = 0;
+        string command = Console.ReadLine();
+
+        while (command != "Report")
+        {
+            string[] tokens = command.Split(" ");
+            string action = tokens[0];
+
+            if (action == "Blacklist")
+            {
+                string name = tokens[1];
+                if (friends.Contains(name))
+                {
+                    blacklistedNames++;
+                    int indexOfName = friends.IndexOf(name);
+                    Console.WriteLine($"{name} was blacklisted.");
+                    friends[indexOfName] = "Blacklisted";
+                }
+                else
+                {
+                    Console.WriteLine($"{name} was not found.");
+                }
+            }
+            else if (action == "Error")
+            {
+                int index = int.Parse(tokens[1]);
+                if (index >= 0 && index < friends.Count && friends[index] != "Blacklisted" && friends[index] != "Lost")
+                {
+                    lostNames++;
+                    Console.WriteLine($"{friends[index]} was lost due to an error.");
+                    friends[index] = "Lost";
+                }
+            }
+            else if (action == "Change")
+            {
+                int index = int.Parse(tokens[1]);
+                string newName = tokens[2];
+                if (index >= 0 && index < friends.Count)
+                {
+                    Console.WriteLine($"{friends[index]} changed his username to {newName}.");
+                    friends[index] = newName;
+                }
+            }
+
+            command = Console.ReadLine();
+        }
+
+        Console.WriteLine($"Blacklisted names: {blacklistedNames}");
+        Console.WriteLine($"Lost names: {lostNames}");
+        Console.WriteLine(string.Join(", ", friends));
+    }
+}
