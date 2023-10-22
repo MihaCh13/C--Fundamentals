@@ -1,0 +1,93 @@
+﻿namespace _03.SchoolLibrary
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] initialBooks = Console.ReadLine().Split('&');
+            List<string> shelf = new List<string>(initialBooks);
+
+            string input;
+            while ((input = Console.ReadLine()) != "Done")
+            {
+                string[] actionParts = input.Split(" | ");
+                string action = actionParts[0];
+
+                switch (action)
+                {
+                    case "Add Book":
+                        string addBook = actionParts[1];
+                        if (!shelf.Contains(addBook))
+                        {
+                            AddBook(shelf, addBook);
+                        }
+                        break;
+
+                    case "Take Book":
+                        string takeBook = actionParts[1];
+                        if (shelf.Contains(takeBook))
+                        {
+                            TakeBook(shelf, takeBook);
+                        }
+                        break;
+
+                    case "Swap Books":
+                        string book1 = actionParts[1];
+                        string book2 = actionParts[2];
+                        if (shelf.Contains(book1) && shelf.Contains(book2))
+                        {
+                            SwapBooks(shelf, book1, book2);
+                        }
+                        break;
+
+                    case "Insert Book":
+                        string insertBook = actionParts[1];
+                        if (!shelf.Contains(insertBook))
+                        {
+                            InsertBook(shelf, insertBook);
+                        }
+                        break;
+
+                    case "Check Book":
+                        int index = int.Parse(actionParts[1]);
+                        CheckBook(shelf, index);
+                        break;
+                }
+            }
+
+            Console.WriteLine(string.Join(", ", shelf));
+        }
+
+        static void AddBook(List<string> shelf, string book)
+        {
+            shelf.Insert(0, book);
+        }
+
+        static void TakeBook(List<string> shelf, string book)
+        {
+            shelf.Remove(book);
+        }
+
+        static void SwapBooks(List<string> shelf, string book1, string book2)
+        {
+            int index1 = shelf.IndexOf(book1);
+            int index2 = shelf.IndexOf(book2);
+
+            shelf[index1] = book2;
+            shelf[index2] = book1;
+        }
+
+        static void InsertBook(List<string> shelf, string book)
+        {
+            shelf.Add(book);
+        }
+
+        static void CheckBook(List<string> shelf, int index)
+        {
+            if (index >= 0 && index < shelf.Count)
+            {
+                Console.WriteLine(shelf[index]);
+            }
+        }
+    }
+}
