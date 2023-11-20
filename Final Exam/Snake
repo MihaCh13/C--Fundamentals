@@ -2,21 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-        //01. The Imitation Game
-        //02. Ad Astra
-        //03. The Pianist
-        //04. World Tour
-        //05. Destination Mapper
-        //06. Plant Discovery
-        //07. Secret Chat
-        //08. Mirror Words
-        //09. Need for Speed III
-        //10. Password Reset
-        //11. Fancy Barcodes
-        //12. Heroes of Code and Logic VII
-        //13. Activation Keys
-        //14. Emoji Detector
-        //15. P!rates
+       
 
 struct Position
     {
