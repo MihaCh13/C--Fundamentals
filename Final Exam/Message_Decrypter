@@ -1,0 +1,48 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace ConsoleApp10
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int count = int.Parse(Console.ReadLine());
+
+            for (int i = 0; i < count; i++)
+            {
+                string text = Console.ReadLine();
+
+                string pattern = @"^(%|\$)(?<tag>[A-Z][a-z]{2,})\1: (\[\d+\])\|(\[\d+\])\|(\[\d+\])\|$";
+                string digitsPattern = @"[0-9]+";
+                Match match = Regex.Match(text, pattern);
+                MatchCollection digitsMatch = Regex.Matches(text, digitsPattern);
+
+                if (match.Success)
+                {
+                    string tag = match.Groups["tag"].Value;
+                    int numbers = 0;
+                    string textOfNumbers = "";
+                        
+                    foreach (Match item in digitsMatch)
+                    {
+                        numbers = int.Parse(item.Value);
+                        char character = (char)numbers;
+                       textOfNumbers += character.ToString();
+
+                        
+                    }
+                    Console.WriteLine($"{tag}: {textOfNumbers}");
+                }
+                else
+                {
+                    Console.WriteLine("Valid message not found!");
+                }
+            }
+        }
+    }
+}
