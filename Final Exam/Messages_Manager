@@ -1,0 +1,118 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace ConsoleApp10
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int capacity = int.Parse(Console.ReadLine());
+            List<User> users = new List<User>();
+
+            while (true)
+            {
+                string[] command = Console.ReadLine().Split("=");
+
+                if (command[0] == "Statistics")
+                {
+                    break;
+                }
+
+
+
+                string action = command[0];
+
+                switch (action)
+                {
+                    case "Add":
+                        Add(users, command[1], int.Parse(command[2]), int.Parse(command[3]));
+                        break;
+                    case "Message":
+                        Message(users, capacity, command[1], command[2]);
+                        break;
+                    case "Empty":
+                        Empty(users, command[1]);
+                        break;
+                }
+            }
+
+            Console.WriteLine($"Users count: {users.Count}");
+            int sumOfMessages = 0;
+            foreach (var user in users)
+            {
+                sumOfMessages = user.Received + user.Sent;
+                Console.WriteLine($"{user.Name} - {sumOfMessages}");
+            }
+
+        }
+
+        private static void Add(List<User> users, string userName, int sent, int received)
+        {
+            User user = new User
+            {
+                Name = userName,
+                Sent = sent,
+                Received = received
+            };
+            if (!users.Any(x => x.Name == userName))
+            {
+
+                users.Add(user);
+
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        private static void Message(List<User> users, int capacity, string sender, string receiver)
+        {
+            if (users.Any(x => x.Name == sender && users.Any(x => x.Name == receiver)))
+            {
+                User senderPerson = users.Find(x => x.Name == sender);
+                senderPerson.Sent += 1;
+
+                User receiverPerson = users.Find(x => x.Name == receiver);
+                receiverPerson.Received += 1;
+
+               
+                if (senderPerson.Sent+senderPerson.Received >= capacity)
+                {
+                    users.Remove(senderPerson);
+                    Console.WriteLine($"{senderPerson.Name} reached the capacity!");
+                }
+                if (receiverPerson.Received+receiverPerson.Sent >= capacity)
+                {
+                    users.Remove(receiverPerson);
+                    Console.WriteLine($"{receiverPerson.Name} reached the capacity!");
+                }
+            }
+        }
+
+        private static void Empty(List<User> users, string userName)
+        {
+            if (userName == "All")
+            {
+                users.Clear();
+            }
+            else if (users.Any(x => x.Name == userName))
+            {
+                User userToEmpty = users.Find(x => x.Name == userName);
+                users.Remove(userToEmpty);
+            }
+        }
+
+        public class User
+        {
+            public string Name { get; set; }
+            public int Sent { get; set; }
+            public int Received { get; set; }
+        }
+    }
+}
