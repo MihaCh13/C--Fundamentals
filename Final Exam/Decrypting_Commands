@@ -1,0 +1,138 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace ConsoleApp10
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string text = Console.ReadLine();
+
+
+            while (true)
+            {
+                string[] command = Console.ReadLine().Split(" ");
+
+                if (command[0] == "Finish")
+                {
+                    break;
+                }
+
+
+                string action = command[0];
+                switch (action)
+                {
+                    case "Replace":
+                        text = Replace(text, command[1],command[2]);
+                        Console.WriteLine(text);
+                        break;
+
+
+                    case "Cut":
+                        text = Cut(text, int.Parse(command[1]), int.Parse(command[2]));
+
+                       
+                        break;
+
+
+                    case "Make":
+                        text = Make(text, command[1]);
+                        Console.WriteLine(text);
+
+                        break;
+
+
+                    case "Check":
+                        text = Check(text, command[1]);
+
+
+                        break;
+
+
+                    case "Sum":
+                        text = Sum(text, int.Parse(command[1]), int.Parse(command[2]));
+
+
+                        break;
+                }
+
+            }
+
+
+           
+        }
+
+        private static string Replace(string text, string currentChar, string newChar)
+        {
+            text = text.Replace(currentChar, newChar);
+            return text;
+        }
+
+        private static string Cut(string text, int startIndex, int endIndex)
+        {
+            if (startIndex>= 0 && startIndex <= text.Length && endIndex<=text.Length && endIndex>=0)
+            {
+                text = text.Remove(startIndex, endIndex - startIndex+1);
+                Console.WriteLine(text);
+                return text;
+            }
+            else
+            {
+                Console.WriteLine("Invalid indices!");
+                return text;
+            }
+        }
+
+        private static string Make(string text, string UpOrLow)
+        {
+            if (UpOrLow == "Upper")
+            {
+                text = text.ToUpper();
+            }
+            else
+            {
+                text = text.ToLower();
+            }
+            return text;
+        }
+
+        private static string Check(string text, string substring)
+        {
+            if (text.Contains(substring))
+            {
+                Console.WriteLine($"Message contains {substring}");
+            }
+            else
+            {
+                Console.WriteLine($"Message doesn't contain {substring}");
+            }
+            return text;
+        }
+
+        private static string Sum(string text, int startIndex, int endIndex)
+        {
+            if (startIndex >= 0 && startIndex <= text.Length && endIndex <= text.Length && endIndex >= 0)
+            {
+                int sum = 0;
+                string substring = text.Substring(startIndex, endIndex - startIndex+1);
+
+                foreach (char item in substring)
+                {
+                    sum += item;
+                }
+                    Console.WriteLine(sum);
+                return text;
+            }
+            else
+            {
+                Console.WriteLine("Invalid indices!");
+                return text;
+            }
+        }
+    }
+}
