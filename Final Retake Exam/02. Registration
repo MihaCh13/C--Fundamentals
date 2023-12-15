@@ -1,0 +1,35 @@
+using System;
+using System.Text.RegularExpressions;
+
+class Program
+{
+    static void Main()
+    {
+        int n = int.Parse(Console.ReadLine());
+        int successfulRegistrationsCount = 0;
+
+        for (int i = 0; i < n; i++)
+        {
+            string input = Console.ReadLine();
+
+            string pattern = @"^U\$([A-Z][a-z]{2,})U\$P@\$(?<password>[A-Za-z]{5,}\d+)P@\$$";
+            Match match = Regex.Match(input, pattern);
+
+            if (match.Success)
+            {
+                string username = match.Groups[1].Value;
+                string password = match.Groups["password"].Value;
+
+                Console.WriteLine("Registration was successful");
+                Console.WriteLine($"Username: {username}, Password: {password}");
+                successfulRegistrationsCount++;
+            }
+            else
+            {
+                Console.WriteLine("Invalid username or password");
+            }
+        }
+
+        Console.WriteLine($"Successful registrations: {successfulRegistrationsCount}");
+    }
+}
