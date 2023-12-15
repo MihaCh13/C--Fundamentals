@@ -1,0 +1,84 @@
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+
+class Program
+{
+    static void Main()
+    {
+        Dictionary<string, double> clients = new Dictionary<string, double>();
+        Dictionary<string, double> distributors = new Dictionary<string, double>();
+        double totalIncome = 0.0;
+
+        string input;
+        while ((input = Console.ReadLine()) != "End")
+        {
+            string[] tokens = input.Split();
+
+            switch (tokens[0])
+            {
+                case "Deliver":
+                    string distributorName = tokens[1];
+                    double moneySpent = double.Parse(tokens[2], CultureInfo.InvariantCulture);
+
+                    if (!distributors.ContainsKey(distributorName))
+                    {
+                        distributors[distributorName] = 0.0;
+                    }
+
+                    distributors[distributorName] += moneySpent;
+                    break;
+
+                case "Return":
+                    string distributorToReturn = tokens[1];
+                    double moneyReturned = double.Parse(tokens[2], CultureInfo.InvariantCulture);
+
+                    if (distributors.ContainsKey(distributorToReturn) && distributors[distributorToReturn] >= moneyReturned)
+                    {
+                        distributors[distributorToReturn] -= moneyReturned;
+
+                        if (distributors[distributorToReturn] == 0)
+                        {
+                            distributors.Remove(distributorToReturn);
+                        }
+                    }
+                    break;
+
+                case "Sell":
+                    string clientName = tokens[1];
+                    double moneyEarned = double.Parse(tokens[2], CultureInfo.InvariantCulture);
+
+                    if (!clients.ContainsKey(clientName))
+                    {
+                        clients[clientName] = 0.0;
+                    }
+
+                    clients[clientName] += moneyEarned;
+                    totalIncome += moneyEarned;
+                    break;
+            }
+        }
+
+        PrintClients(clients);
+        Console.WriteLine("-----------");
+        PrintDistributors(distributors);
+        Console.WriteLine("-----------");
+        Console.WriteLine($"Total Income: {totalIncome:F2}");
+    }
+
+    static void PrintClients(Dictionary<string, double> clients)
+    {
+        foreach (var client in clients)
+        {
+            Console.WriteLine($"{client.Key}: {client.Value:F2}");
+        }
+    }
+
+    static void PrintDistributors(Dictionary<string, double> distributors)
+    {
+        foreach (var distributor in distributors)
+        {
+            Console.WriteLine($"{distributor.Key}: {distributor.Value:F2}");
+        }
+    }
+}
